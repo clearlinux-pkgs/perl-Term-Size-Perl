@@ -4,21 +4,30 @@
 #
 Name     : perl-Term-Size-Perl
 Version  : 0.0201
-Release  : 2
+Release  : 3
 URL      : https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Term-Size-Perl-0.0201.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Term-Size-Perl-0.0201.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libterm-size-perl-perl/libterm-size-perl-perl_0.031-1.debian.tar.xz
 Summary  : Perl extension for retrieving terminal size (Perl version)
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
-Requires: perl-Term-Size-Perl-license
-Requires: perl-Term-Size-Perl-man
+Requires: perl-Term-Size-Perl-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 
 %description
 This is alpha release 0.02 of Term::Size::Perl.
 Term::Size::Perl is a Perl module which provides a straightforward
 way to get the size of the terminal (or window) on which
 a script is running.
+
+%package dev
+Summary: dev components for the perl-Term-Size-Perl package.
+Group: Development
+Provides: perl-Term-Size-Perl-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-Term-Size-Perl package.
+
 
 %package license
 Summary: license components for the perl-Term-Size-Perl package.
@@ -28,19 +37,11 @@ Group: Default
 license components for the perl-Term-Size-Perl package.
 
 
-%package man
-Summary: man components for the perl-Term-Size-Perl package.
-Group: Default
-
-%description man
-man components for the perl-Term-Size-Perl package.
-
-
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n Term-Size-Perl-0.0201
-mkdir -p %{_topdir}/BUILD/Term-Size-Perl-0.0201/deblicense/
+cd ..
+%setup -q -T -D -n Term-Size-Perl-0.0201 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Term-Size-Perl-0.0201/deblicense/
 
 %build
@@ -65,12 +66,12 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/perl-Term-Size-Perl
-cp deblicense/copyright %{buildroot}/usr/share/doc/perl-Term-Size-Perl/deblicense_copyright
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-Term-Size-Perl
+cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Term-Size-Perl/deblicense_copyright
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -79,14 +80,14 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/Term/Size/Perl.pm
-/usr/lib/perl5/site_perl/5.26.1/Term/Size/Perl/Params.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Term/Size/Perl.pm
+/usr/lib/perl5/vendor_perl/5.26.1/Term/Size/Perl/Params.pm
 
-%files license
-%defattr(-,root,root,-)
-/usr/share/doc/perl-Term-Size-Perl/deblicense_copyright
-
-%files man
+%files dev
 %defattr(-,root,root,-)
 /usr/share/man/man3/Term::Size::Params.3
 /usr/share/man/man3/Term::Size::Perl.3
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-Term-Size-Perl/deblicense_copyright
