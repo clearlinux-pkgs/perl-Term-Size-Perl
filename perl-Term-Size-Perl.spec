@@ -4,7 +4,7 @@
 #
 Name     : perl-Term-Size-Perl
 Version  : 0.0201
-Release  : 3
+Release  : 4
 URL      : https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Term-Size-Perl-0.0201.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Term-Size-Perl-0.0201.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libterm-size-perl-perl/libterm-size-perl-perl_0.031-1.debian.tar.xz
@@ -80,8 +80,8 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.26.1/Term/Size/Perl.pm
-/usr/lib/perl5/vendor_perl/5.26.1/Term/Size/Perl/Params.pm
+/usr/lib/perl5/vendor_perl/5.28.0/Term/Size/Perl.pm
+/usr/lib/perl5/vendor_perl/5.28.0/Term/Size/Perl/Params.pm
 
 %files dev
 %defattr(-,root,root,-)
