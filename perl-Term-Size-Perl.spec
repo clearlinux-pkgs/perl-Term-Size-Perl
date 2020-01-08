@@ -4,7 +4,7 @@
 #
 Name     : perl-Term-Size-Perl
 Version  : 0.031
-Release  : 11
+Release  : 12
 URL      : https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Term-Size-Perl-0.031.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Term-Size-Perl-0.031.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libterm-size-perl-perl/libterm-size-perl-perl_0.031-1.debian.tar.xz
@@ -12,6 +12,7 @@ Summary  : 'Perl extension for retrieving terminal size (Perl version)'
 Group    : Development/Tools
 License  : Artistic-1.0 Artistic-1.0-Perl GPL-1.0
 Requires: perl-Term-Size-Perl-license = %{version}-%{release}
+Requires: perl-Term-Size-Perl-perl = %{version}-%{release}
 BuildRequires : buildreq-cpan
 
 %description
@@ -23,6 +24,7 @@ a script is running.
 Summary: dev components for the perl-Term-Size-Perl package.
 Group: Development
 Provides: perl-Term-Size-Perl-devel = %{version}-%{release}
+Requires: perl-Term-Size-Perl = %{version}-%{release}
 
 %description dev
 dev components for the perl-Term-Size-Perl package.
@@ -36,18 +38,28 @@ Group: Default
 license components for the perl-Term-Size-Perl package.
 
 
+%package perl
+Summary: perl components for the perl-Term-Size-Perl package.
+Group: Default
+Requires: perl-Term-Size-Perl = %{version}-%{release}
+
+%description perl
+perl components for the perl-Term-Size-Perl package.
+
+
 %prep
 %setup -q -n Term-Size-Perl-0.031
-cd ..
-%setup -q -T -D -n Term-Size-Perl-0.031 -b 1
+cd %{_builddir}
+tar xf %{_sourcedir}/libterm-size-perl-perl_0.031-1.debian.tar.xz
+cd %{_builddir}/Term-Size-Perl-0.031
 mkdir -p deblicense/
-cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/Term-Size-Perl-0.031/deblicense/
+cp -r %{_builddir}/debian/* %{_builddir}/Term-Size-Perl-0.031/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
+export LANG=C.UTF-8
 if test -f Makefile.PL; then
 %{__perl} Makefile.PL
 make  %{?_smp_mflags}
@@ -57,7 +69,7 @@ else
 fi
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
@@ -66,8 +78,8 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Term-Size-Perl
-cp LICENSE %{buildroot}/usr/share/package-licenses/perl-Term-Size-Perl/LICENSE
-cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Term-Size-Perl/deblicense_copyright
+cp %{_builddir}/Term-Size-Perl-0.031/LICENSE %{buildroot}/usr/share/package-licenses/perl-Term-Size-Perl/9f613256be99cb65c012134be07c0229ae6fdddc
+cp %{_builddir}/Term-Size-Perl-0.031/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Term-Size-Perl/be0a68d7dfd3ba35fbad1e062820252ecd8a03fd
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -80,8 +92,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.28.2/Term/Size/Perl.pm
-/usr/lib/perl5/vendor_perl/5.28.2/Term/Size/Perl/Params.pm
 
 %files dev
 %defattr(-,root,root,-)
@@ -90,5 +100,10 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/perl-Term-Size-Perl/LICENSE
-/usr/share/package-licenses/perl-Term-Size-Perl/deblicense_copyright
+/usr/share/package-licenses/perl-Term-Size-Perl/9f613256be99cb65c012134be07c0229ae6fdddc
+/usr/share/package-licenses/perl-Term-Size-Perl/be0a68d7dfd3ba35fbad1e062820252ecd8a03fd
+
+%files perl
+%defattr(-,root,root,-)
+/usr/lib/perl5/vendor_perl/5.30.1/Term/Size/Perl.pm
+/usr/lib/perl5/vendor_perl/5.30.1/Term/Size/Perl/Params.pm
