@@ -4,7 +4,7 @@
 #
 Name     : perl-Term-Size-Perl
 Version  : 0.031
-Release  : 12
+Release  : 13
 URL      : https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Term-Size-Perl-0.031.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/F/FE/FERREIRA/Term-Size-Perl-0.031.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libt/libterm-size-perl-perl/libterm-size-perl-perl_0.031-1.debian.tar.xz
@@ -79,7 +79,7 @@ make TEST_VERBOSE=1 test
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-Term-Size-Perl
 cp %{_builddir}/Term-Size-Perl-0.031/LICENSE %{buildroot}/usr/share/package-licenses/perl-Term-Size-Perl/9f613256be99cb65c012134be07c0229ae6fdddc
-cp %{_builddir}/Term-Size-Perl-0.031/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-Term-Size-Perl/be0a68d7dfd3ba35fbad1e062820252ecd8a03fd
+cp %{_builddir}/debian/copyright %{buildroot}/usr/share/package-licenses/perl-Term-Size-Perl/be0a68d7dfd3ba35fbad1e062820252ecd8a03fd
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -105,5 +105,5 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.1/Term/Size/Perl.pm
-/usr/lib/perl5/vendor_perl/5.30.1/Term/Size/Perl/Params.pm
+/usr/lib/perl5/vendor_perl/5.30.2/Term/Size/Perl.pm
+/usr/lib/perl5/vendor_perl/5.30.2/Term/Size/Perl/Params.pm
